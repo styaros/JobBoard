@@ -49,6 +49,7 @@ class JobSearchFragment : Fragment() {
             false
         )
 
+
         val sortDialogSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
 
         sortDialogSheet.setContentView(sortBinding.root)
