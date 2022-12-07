@@ -2,10 +2,12 @@ package com.example.jobboard.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import com.example.jobboard.R
 import com.example.jobboard.databinding.ActivityMainBinding
+import com.example.jobboard.utils.isEmployeeProfile
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,5 +20,43 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         val navController = navHostFragment.navController
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.startFragment -> {
+                    showBottomBar(false)
+                }
+                else -> showBottomBar(true)
+            }
+        }
+
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when(item.itemId) {
+                R.id.job_search -> {
+                    navController.navigate(R.id.jobSearchFragment)
+                    true
+                }
+                R.id.favourites -> {
+                    navController.navigate(R.id.favouritesFragment)
+                    true
+                }
+                R.id.profile -> {
+                    if(isEmployeeProfile(this)) {
+                        val bundle = bundleOf("isEmployeeMainPage" to true)
+                        navController.navigate(R.id.employeeProfileFragment, bundle)
+                    } else {
+                        val bundle = bundleOf("isCompanyMainPage" to true)
+                        navController.navigate(R.id.companyProfileFragment, bundle)
+                    }
+
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun showBottomBar(show: Boolean) {
+        binding.bottomNav.isVisible = show
     }
 }

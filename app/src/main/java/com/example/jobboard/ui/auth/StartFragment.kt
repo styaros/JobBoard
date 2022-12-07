@@ -17,6 +17,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.jobboard.R
 import com.example.jobboard.databinding.FragmentStartBinding
+import com.example.jobboard.utils.putProfileType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -53,11 +54,13 @@ class StartFragment : Fragment() {
         }
 
         binding.btnRegisterAsEmployer.setOnClickListener {
-            viewModel.openLoginPage()
+            putProfileType(requireContext(), false)
+            findNavController().navigate(R.id.jobSearchFragment)
         }
 
         binding.btnRegisterAsEmployee.setOnClickListener {
-            viewModel.openLoginPage()
+            putProfileType(requireContext(), true)
+            findNavController().navigate(R.id.jobSearchFragment)
         }
 
         setupObservers()
