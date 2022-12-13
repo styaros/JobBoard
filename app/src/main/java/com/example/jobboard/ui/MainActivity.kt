@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import com.example.jobboard.R
 import com.example.jobboard.databinding.ActivityMainBinding
-import com.example.jobboard.utils.isEmployeeProfile
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.startFragment -> {
+                R.id.startFragment, R.id.loginFragment -> {
                     showBottomBar(false)
                 }
                 else -> showBottomBar(true)
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.profile -> {
-                    if(isEmployeeProfile(this)) {
+                    if(true) {
                         val bundle = bundleOf("isEmployeeMainPage" to true)
                         navController.navigate(R.id.employeeProfileFragment, bundle)
                     } else {

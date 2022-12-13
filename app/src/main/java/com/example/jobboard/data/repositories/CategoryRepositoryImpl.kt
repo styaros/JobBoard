@@ -1,4 +1,4 @@
-package com.example.jobboard.data
+package com.example.jobboard.data.repositories
 
 import com.example.jobboard.data.api.CategoryApi
 import com.example.jobboard.data.api.models.CategoryApiModel
