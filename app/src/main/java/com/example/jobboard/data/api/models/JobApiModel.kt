@@ -14,6 +14,7 @@ data class JobApiModel(
     @SerializedName("employment") val employment: String,
     @SerializedName("shortDiscription") val shortDescription: String,
     @SerializedName("category") val category: CategoryApiModel,
+    @SerializedName("employer") val employer: EmployerModel,
 )
 
 data class JobDetailsApiModel(

@@ -6,7 +6,9 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import com.example.jobboard.R
+import com.example.jobboard.data.repositories.SharedPrefsRepositoryImpl
 import com.example.jobboard.databinding.ActivityMainBinding
+import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import com.example.jobboard.ui.auth.start.StartViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.profile -> {
-                    if(true) {
+                    if(false) {
                         val bundle = bundleOf("isEmployeeMainPage" to true)
                         navController.navigate(R.id.employeeProfileFragment, bundle)
                     } else {

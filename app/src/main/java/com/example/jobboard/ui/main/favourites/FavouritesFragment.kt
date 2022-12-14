@@ -33,24 +33,24 @@ class FavouritesFragment : Fragment() {
 
         binding.rvJobs.adapter = adapter
         adapter.submitList(listOf(
-            JobApiModel(
-                id = "sdfsdf",
-                name = "work 1",
-                location = LocationApiModel("id", "New York"),
-                datePosted = "2022-12-07T02:14:29.185Z",
-                employment = "full time",
-                shortDescription = "short description",
-                category = CategoryApiModel("id", "GameDev")
-            ),
-            JobApiModel(
-                id = "sdfsdf",
-                name = "work 2",
-                location = LocationApiModel("id", "New York"),
-                datePosted = "2022-12-07T02:14:29.185Z",
-                employment = "full time",
-                shortDescription = "short description",
-                category = CategoryApiModel("id", "GameDev")
-            )
+//            JobApiModel(
+//                id = "sdfsdf",
+//                name = "work 1",
+//                location = LocationApiModel("id", "New York"),
+//                datePosted = "2022-12-07T02:14:29.185Z",
+//                employment = "full time",
+//                shortDescription = "short description",
+//                category = CategoryApiModel("id", "GameDev")
+//            ),
+//            JobApiModel(
+//                id = "sdfsdf",
+//                name = "work 2",
+//                location = LocationApiModel("id", "New York"),
+//                datePosted = "2022-12-07T02:14:29.185Z",
+//                employment = "full time",
+//                shortDescription = "short description",
+//                category = CategoryApiModel("id", "GameDev")
+//            )
         ))
     }
 

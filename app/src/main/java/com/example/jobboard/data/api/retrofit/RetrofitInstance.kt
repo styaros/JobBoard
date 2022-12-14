@@ -1,4 +1,4 @@
-package com.example.jobboard.data.api
+package com.example.jobboard.data.api.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

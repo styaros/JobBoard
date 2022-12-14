@@ -170,10 +170,10 @@ class JobSearchFragment : Fragment() {
 
             val salaryStartText = filterBinding.etSalaryStart.text.toString()
             val salaryEndText = filterBinding.etSalaryEnd.text.toString()
-            val salaryStart = if(salaryStartText.isEmpty()) 0 else salaryStartText.toInt()
-            val salaryEnd = if(salaryEndText.isEmpty()) 1000000 else salaryEndText.toInt()
+            val salaryStart = if (salaryStartText.isEmpty()) 0 else salaryStartText.toInt()
+            val salaryEnd = if (salaryEndText.isEmpty()) 1000000 else salaryEndText.toInt()
 
-            if(salaryStart >= 0 && salaryEnd >= 0 && salaryStart in 0 until salaryEnd + 1) {
+            if (salaryStart >= 0 && salaryEnd >= 0 && salaryStart in 0 until salaryEnd + 1) {
                 viewModel.setSalary(salaryStart, salaryEnd)
                 viewModel.setCategories()
                 filterDialogSheet.dismiss()
@@ -202,7 +202,10 @@ class JobSearchFragment : Fragment() {
     }
 
     private fun onItemClickListener(job: JobApiModel) {
-        val bundle = bundleOf("jobId" to job.id)
+        val bundle = bundleOf(
+            "jobId" to job.id,
+            "employerId" to job.employer.id
+        )
         findNavController().navigate(R.id.jobDetailsFragment, bundle)
     }
 
