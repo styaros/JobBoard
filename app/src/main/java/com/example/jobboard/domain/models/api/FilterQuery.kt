@@ -20,7 +20,7 @@ data class Filters(
 
 data class Pagging(
     @SerializedName("page") val page: Int = 1,
-    @SerializedName("count") val count: Int = 10
+    @SerializedName("count") val count: Int = 120
 
 )
 

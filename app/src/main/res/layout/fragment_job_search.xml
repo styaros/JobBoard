@@ -16,15 +16,28 @@
 
         <EditText
             android:id="@+id/et_job_search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:background="@drawable/background_rounded_shape"
             android:backgroundTint="@color/edit_text_grey"
             android:hint="Пошук вакансій"
             android:padding="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_search"
+            android:background="@drawable/background_rounded_shape"
+            android:backgroundTint="@color/browser_actions_bg_grey"
+            app:layout_constraintStart_toEndOf="@id/et_job_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_job_search"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/sort_layout"
