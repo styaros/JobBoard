@@ -1,10 +1,10 @@
 package com.example.jobboard.ui.main.jobsearch.jobSearch
 
+import androidx.core.util.rangeTo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jobboard.data.api.CategoryApi
 import com.example.jobboard.data.api.models.CategoryApiModel
 import com.example.jobboard.data.api.models.JobApiModel
 import com.example.jobboard.data.api.models.LocationApiModel
@@ -38,6 +38,18 @@ class JobSearchViewModel(
     val locationList: LiveData<List<LocationApiModel>>
         get() = _locationList
 
+    private val _categoryChoseList = MutableLiveData<List<CategoryApiModel>>(listOf())
+    val categoryChoseList: LiveData<List<CategoryApiModel>>
+        get() = _categoryChoseList
+
+    private val _locationChoseList = MutableLiveData<List<LocationApiModel>>(listOf())
+    val locationChoseList: LiveData<List<LocationApiModel>>
+        get() = _locationChoseList
+
+    private val _experienceChoseList = MutableLiveData<List<Int>>(listOf())
+    val experienceChoseList: LiveData<List<Int>>
+        get() = _experienceChoseList
+
     fun getJobsByFilter() {
         viewModelScope.launch {
             _jobList.value = jobRepository.getJobsByFilters(filterQuery.value!!)
@@ -53,16 +65,12 @@ class JobSearchViewModel(
         }
     }
 
-    fun setFilters(
-        categoryIdsList: List<String>,
-        locationIdsList: List<String>,
-        experienceList: List<Int>
-    ) {
+    fun setCategories() {
         _filterQuery.value = _filterQuery.value?.copy(
             filters = _filterQuery.value?.filters?.copy(
-                categoryIds = categoryIdsList,
-                locationIds = locationIdsList,
-                experiences = experienceList
+                categoryIds = _categoryChoseList.value!!.map { it.id },
+                locationIds = _locationChoseList.value!!.map { it.id },
+                experiences = _experienceChoseList.value!!
             ) ?: Filters(
                 categoryIds = null,
                 locationIds = null,
@@ -77,6 +85,48 @@ class JobSearchViewModel(
                 keyWord = keyword
             ) ?: Filters(keyWord = keyword)
         )
+    }
+
+    fun setSalary(salaryStart: Int, salaryEnd: Int) {
+        _filterQuery.value = _filterQuery.value?.copy(
+            filters = _filterQuery.value?.filters?.copy(
+                salaryStart = salaryStart,
+                salaryEnd = salaryEnd
+            ) ?: Filters(
+                salaryStart = 0,
+                salaryEnd = 1000000
+            )
+        )
+    }
+
+    fun updateCategories(category: CategoryApiModel) {
+        val list = _categoryChoseList.value!!.toMutableList()
+         if (list.contains(category)) {
+            list.remove(category)
+        } else {
+            list.add(category)
+        }
+        _categoryChoseList.value = list
+    }
+
+    fun updateLocations(location: LocationApiModel) {
+        val list = _locationChoseList.value!!.toMutableList()
+        if (list.contains(location)) {
+            list.remove(location)
+        } else {
+            list.add(location)
+        }
+        _locationChoseList.value = list
+    }
+
+    fun updateExperiences(experience: Int) {
+        val list = _experienceChoseList.value!!.toMutableList()
+        if (list.contains(experience)) {
+            list.remove(experience)
+        } else {
+            list.add(experience)
+        }
+        _experienceChoseList.value = list
     }
 
     fun setSort(code: SortCode) {

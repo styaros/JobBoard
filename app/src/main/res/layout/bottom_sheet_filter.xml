@@ -7,8 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bottom_sheet_background"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,28 +22,63 @@
             android:id="@+id/salary_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_marginTop="20dp">
 
             <TextView
+                android:id="@+id/tv_salary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/salary"
+                android:textColor="@android:color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/et_salary_start"/>
 
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/et_salary_start"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:hint="0"
+                android:padding="10dp"
+                android:inputType="number"
                 android:background="@drawable/background_rounded_shape"
                 android:backgroundTint="@color/browser_actions_bg_grey"
+                app:layout_constraintTop_toBottomOf="@id/tv_salary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@id/tv_hyphen"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:id="@+id/tv_hyphen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="32sp"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toEndOf="@id/et_salary_start"
+                app:layout_constraintTop_toTopOf="@id/et_salary_start"
+                app:layout_constraintEnd_toStartOf="@id/et_salary_end"
+                app:layout_constraintBottom_toBottomOf="@id/et_salary_start"/>
+
+            <EditText
+                android:id="@+id/et_salary_end"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:hint="100000"
+                android:padding="10dp"
+                android:inputType="number"
+                android:background="@drawable/background_rounded_shape"
+                android:backgroundTint="@color/browser_actions_bg_grey"
+                app:layout_constraintTop_toBottomOf="@id/tv_salary"
+                app:layout_constraintStart_toEndOf="@id/tv_hyphen"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/categories_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/iv_arrow_categories"
@@ -70,6 +104,8 @@
                 android:id="@+id/category_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +143,8 @@
                 android:id="@+id/location_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +159,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/iv_arrow"
+                android:id="@+id/iv_arrow_experiences"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -137,18 +175,20 @@
                 android:layout_margin="10dp"
                 android:text="@string/experiences"
                 android:textColor="@color/black"
-                app:layout_constraintStart_toEndOf="@id/iv_arrow"
+                app:layout_constraintStart_toEndOf="@id/iv_arrow_experiences"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/experience_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_arrow" />
+                app:layout_constraintTop_toBottomOf="@id/iv_arrow_experiences" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

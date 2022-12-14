@@ -7,6 +7,8 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import com.example.jobboard.R
 import com.example.jobboard.databinding.ActivityMainBinding
+import com.example.jobboard.ui.auth.start.StartViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.jobboard.R
@@ -18,6 +19,7 @@ import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.CategoryAdapter
 import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.ExperienceAdapter
 import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.JobAdapter
 import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.LocationAdapter
+import com.example.jobboard.utils.src
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,10 +28,6 @@ class JobSearchFragment : Fragment() {
     private lateinit var binding: FragmentJobSearchBinding
 
     private val viewModel by viewModel<JobSearchViewModel>()
-
-    private val categoryList = mutableListOf<CategoryApiModel>()
-    private val locationList = mutableListOf<LocationApiModel>()
-    private val experienceList = mutableListOf<Int>()
 
     private val jobAdapter by lazy {
         JobAdapter(::onItemClickListener)
@@ -70,7 +68,7 @@ class JobSearchFragment : Fragment() {
 
         binding.ivSearch.setOnClickListener {
             val keyword = binding.etJobSearch.text.toString()
-            if(keyword.isNotBlank()) {
+            if (keyword.isNotBlank()) {
                 viewModel.searchByKeyword(keyword)
             } else {
                 viewModel.searchByKeyword(null)
@@ -91,31 +89,30 @@ class JobSearchFragment : Fragment() {
             false
         )
 
-
         val sortDialogSheet = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
 
         sortDialogSheet.setContentView(sortBinding.root)
 
         sortBinding.btnSortAccepting.setOnClickListener {
-            if(sortBinding.rbSortStandard.isChecked) {
+            if (sortBinding.rbSortStandard.isChecked) {
                 viewModel.setSort(SortCode.ByDefault)
             }
-            if(sortBinding.rbSortByNameAscending.isChecked) {
+            if (sortBinding.rbSortByNameAscending.isChecked) {
                 viewModel.setSort(SortCode.ByTitleAscending)
             }
-            if(sortBinding.rbSortByNameDescending.isChecked) {
+            if (sortBinding.rbSortByNameDescending.isChecked) {
                 viewModel.setSort(SortCode.ByTitleDescending)
             }
-            if(sortBinding.rbSortBySalaryAscending.isChecked) {
+            if (sortBinding.rbSortBySalaryAscending.isChecked) {
                 viewModel.setSort(SortCode.BySalaryAscending)
             }
-            if(sortBinding.rbSortBySalaryDescending.isChecked) {
+            if (sortBinding.rbSortBySalaryDescending.isChecked) {
                 viewModel.setSort(SortCode.BySalaryAscending)
             }
-            if(sortBinding.rbSortByExperienceAscending.isChecked) {
+            if (sortBinding.rbSortByExperienceAscending.isChecked) {
                 viewModel.setSort(SortCode.ByExperienceAscending)
             }
-            if(sortBinding.rbSortByExperienceDescending.isChecked) {
+            if (sortBinding.rbSortByExperienceDescending.isChecked) {
                 viewModel.setSort(SortCode.ByExperienceDescending)
             }
             sortDialogSheet.dismiss()
@@ -139,11 +136,51 @@ class JobSearchFragment : Fragment() {
         filterBinding.locationRecycler.adapter = locationAdapter
         filterBinding.experienceRecycler.adapter = experienceAdapter
 
+        filterBinding.ivArrowCategories.setOnClickListener {
+            if (filterBinding.categoryRecycler.isVisible) {
+                filterBinding.categoryRecycler.isVisible = false
+                filterBinding.ivArrowCategories.src(R.drawable.ic_arrow_down)
+            } else {
+                filterBinding.categoryRecycler.isVisible = true
+                filterBinding.ivArrowCategories.src(R.drawable.ic_arrow_up)
+            }
+        }
+
+        filterBinding.ivArrowLocations.setOnClickListener {
+            if (filterBinding.locationRecycler.isVisible) {
+                filterBinding.locationRecycler.isVisible = false
+                filterBinding.ivArrowLocations.src(R.drawable.ic_arrow_down)
+            } else {
+                filterBinding.locationRecycler.isVisible = true
+                filterBinding.ivArrowLocations.src(R.drawable.ic_arrow_up)
+            }
+        }
+
+        filterBinding.ivArrowExperiences.setOnClickListener {
+            if (filterBinding.experienceRecycler.isVisible) {
+                filterBinding.experienceRecycler.isVisible = false
+                filterBinding.ivArrowExperiences.src(R.drawable.ic_arrow_down)
+            } else {
+                filterBinding.experienceRecycler.isVisible = true
+                filterBinding.ivArrowExperiences.src(R.drawable.ic_arrow_up)
+            }
+        }
+
         filterBinding.btnFilterAccepting.setOnClickListener {
-            val categoryIds = categoryList.map { category -> category.id }
-            val locationIds = locationList.map { location -> location.id }
-            viewModel.setFilters(categoryIds, locationIds, experienceList)
-            filterDialogSheet.dismiss()
+
+            val salaryStartText = filterBinding.etSalaryStart.text.toString()
+            val salaryEndText = filterBinding.etSalaryEnd.text.toString()
+            val salaryStart = if(salaryStartText.isEmpty()) 0 else salaryStartText.toInt()
+            val salaryEnd = if(salaryEndText.isEmpty()) 1000000 else salaryEndText.toInt()
+
+            if(salaryStart >= 0 && salaryEnd >= 0 && salaryStart in 0 until salaryEnd + 1) {
+                viewModel.setSalary(salaryStart, salaryEnd)
+                viewModel.setCategories()
+                filterDialogSheet.dismiss()
+            } else {
+                filterBinding.etSalaryStart.error = ""
+                filterBinding.etSalaryEnd.error = ""
+            }
         }
 
         filterDialogSheet.show()
@@ -170,26 +207,14 @@ class JobSearchFragment : Fragment() {
     }
 
     private fun onCategoryCheckboxClickListener(category: CategoryApiModel) {
-        if(categoryList.contains(category)) {
-            categoryList.remove(category)
-        } else {
-            categoryList.add(category)
-        }
+        viewModel.updateCategories(category)
     }
 
     private fun onLocationCheckboxListener(location: LocationApiModel) {
-        if(locationList.contains(location)) {
-            locationList.remove(location)
-        } else {
-            locationList.add(location)
-        }
+        viewModel.updateLocations(location)
     }
 
     private fun onExperienceCheckboxListener(experience: Int) {
-        if(experienceList.contains(experience)) {
-            experienceList.remove(experience)
-        } else {
-            experienceList.add(experience)
-        }
+        viewModel.updateExperiences(experience)
     }
 }

@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.jobboard.R
 import com.example.jobboard.databinding.FragmentStartBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class StartFragment : Fragment() {
 
     private lateinit var binding: FragmentStartBinding
+
+    private val viewModel: StartViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +41,14 @@ class StartFragment : Fragment() {
         }
 
         setupObservers()
+        viewModel.isUserAuthorized()
     }
 
     private fun setupObservers() {
-
+        viewModel.isUserAuthorizedLiveData.observe(viewLifecycleOwner) { isUserAuthorized ->
+            if(isUserAuthorized) {
+                findNavController().navigate(R.id.jobSearchFragment)
+            }
+        }
     }
 }
