@@ -50,6 +50,11 @@ class CompanyProfileFragment : Fragment() {
             findNavController().navigate(R.id.editCompanyProfileFragment)
         }
 
+        binding.layoutLogOut.setOnClickListener {
+            viewModel.logOut()
+            findNavController().popBackStack(R.id.startFragment, false)
+        }
+
         setupObservers()
     }
 

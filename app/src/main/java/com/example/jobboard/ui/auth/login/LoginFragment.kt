@@ -9,8 +9,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.jobboard.R
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.databinding.FragmentLoginBinding
 import com.example.jobboard.utils.AuthError
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -52,9 +55,10 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Such user does not exist", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.saveUserId(userId)
-                findNavController().navigate(R.id.jobSearchFragment)
+                    findNavController().navigate(R.id.jobSearchFragment)
+                }
             }
-        }
+
         viewModel.emailErrorLiveData.observe(viewLifecycleOwner) { error ->
             if(error is AuthError.EmptyEmail) {
                 binding.etEmailContainer.error = "Email is empty"

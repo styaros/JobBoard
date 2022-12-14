@@ -13,6 +13,7 @@ import com.example.jobboard.domain.models.api.Sort
 import com.example.jobboard.domain.repositories.CategoryRepository
 import com.example.jobboard.domain.repositories.JobRepository
 import com.example.jobboard.domain.repositories.LocationRepository
+import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import kotlinx.coroutines.launch
 
 class JobSearchViewModel(

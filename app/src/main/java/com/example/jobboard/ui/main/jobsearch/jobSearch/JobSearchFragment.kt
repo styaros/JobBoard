@@ -8,7 +8,9 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.jobboard.R
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.data.api.models.CategoryApiModel
 import com.example.jobboard.data.api.models.JobApiModel
 import com.example.jobboard.data.api.models.LocationApiModel
@@ -21,6 +23,9 @@ import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.JobAdapter
 import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.LocationAdapter
 import com.example.jobboard.utils.src
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JobSearchFragment : Fragment() {
@@ -30,7 +35,7 @@ class JobSearchFragment : Fragment() {
     private val viewModel by viewModel<JobSearchViewModel>()
 
     private val jobAdapter by lazy {
-        JobAdapter(::onItemClickListener)
+        JobAdapter(::onItemClickListener, !Authorization.isEmployerState)
     }
 
     private val categoryAdapter by lazy {

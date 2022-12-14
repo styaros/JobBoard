@@ -1,6 +1,7 @@
 package com.example.jobboard.data.repositories
 
 import android.content.Context
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.domain.repositories.SharedPrefsRepository
 
 class SharedPrefsRepositoryImpl(
@@ -9,19 +10,21 @@ class SharedPrefsRepositoryImpl(
 
     private val sharedPrefs = context.getSharedPreferences(USER_SHARED_PREFS, Context.MODE_PRIVATE)
 
-    override suspend fun isEmployeeProfile(): Boolean {
-        return sharedPrefs.getBoolean(IS_EMPLOYEE_PROFILE, false)
+    override suspend fun getProfileType(): Boolean {
+       return sharedPrefs.getBoolean(IS_EMPLOYEE_PROFILE, false)
     }
 
-    override suspend fun putProfileType(isEmployeeProfile: Boolean) {
-        sharedPrefs.edit().putBoolean(IS_EMPLOYEE_PROFILE, isEmployeeProfile).apply()
+    override suspend fun putProfileType(isEmployerProfile: Boolean) {
+        sharedPrefs.edit().putBoolean(IS_EMPLOYEE_PROFILE, isEmployerProfile).apply()
+        Authorization.isEmployerFlow.emit(isEmployerProfile)
+        Authorization.isEmployerState = isEmployerProfile
     }
 
     override suspend fun getUserId(): String? {
         return sharedPrefs.getString(USER_ID, "")
     }
 
-    override suspend fun putUserId(userId: String) {
+    override suspend fun putUserId(userId: String?) {
         sharedPrefs.edit().putString(USER_ID, userId).apply()
     }
 

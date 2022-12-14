@@ -12,4 +12,7 @@ interface JobApi {
 
     @GET("api/v$API_VERSION/Job/Get/{id}")
     suspend fun getJobById(@Path("id") id: String): Response<JobDetailsApiModel>
+
+    @GET("api/v$API_VERSION/Job/UGetAppliedJobs/UGetAppliedJobs")
+    suspend fun getAppliedJobs(@Query("UserId") id: String): Response<JobDetailsApiModel>
 }

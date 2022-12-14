@@ -1,4 +1,4 @@
-package com.example.jobboard.ui.main.profile.company.profile
+package com.example.jobboard.ui.main.profile.employee
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import com.example.jobboard.domain.repositories.UserInfoRepository
 import kotlinx.coroutines.launch
 
-class CompanyProfileViewModel(
+class EmployeeProfileViewModel(
     private val userInfoRepository: UserInfoRepository,
     private val sharedPrefsRepository: SharedPrefsRepository
 ) : ViewModel() {
@@ -18,12 +18,12 @@ class CompanyProfileViewModel(
     val userInfoLiveData: LiveData<EmployerModel>
         get() = _userInfoLiveData
 
-    fun getUserInfo() {
-        viewModelScope.launch {
-            val userId = sharedPrefsRepository.getUserId()
-            _userInfoLiveData.value = userInfoRepository.getEmployerInfo(userId!!)
-        }
-    }
+//    fun getUserInfo() {
+//        viewModelScope.launch {
+//            val userId = sharedPrefsRepository.getUserId()
+//            _userInfoLiveData.value = userInfoRepository.getEmployerInfo(userId!!)
+//        }
+//    }
 
     fun logOut() {
         viewModelScope.launch {

@@ -21,7 +21,12 @@
         android:id="@+id/jobSearchFragment"
         android:name="com.example.jobboard.ui.main.jobsearch.jobSearch.JobSearchFragment"
         android:label="JobSearchFragment"
-        tools:layout="@layout/fragment_job_search"/>
+        tools:layout="@layout/fragment_job_search">
+        <argument
+            android:name="isEmployer"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+    </fragment>
 
     <fragment
         android:id="@+id/companyProfileFragment"
