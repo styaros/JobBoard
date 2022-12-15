@@ -9,14 +9,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobboard.R
 import com.example.jobboard.data.api.models.JobApiModel
+import com.example.jobboard.data.api.models.VacancyApiModel
 import com.example.jobboard.databinding.RvItemEmployerVacancyBinding
 import com.example.jobboard.utils.ddMMyyyyFormatDate
 import com.example.jobboard.utils.fullFormatDate
 
 class VacancyAdapter(
-    private val onEditClick: (JobApiModel) -> Unit,
-    private val onDeleteClick: (JobApiModel) -> Unit
-) : ListAdapter<JobApiModel, VacancyViewHolder>(VacancyDiffUtil()) {
+    private val onEditClick: (VacancyApiModel) -> Unit,
+    private val onDeleteClick: (VacancyApiModel) -> Unit
+) : ListAdapter<VacancyApiModel, VacancyViewHolder>(VacancyDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
         val binding = RvItemEmployerVacancyBinding.inflate(
@@ -35,14 +36,14 @@ class VacancyAdapter(
 class VacancyViewHolder(
     private val context: Context,
     private val binding: RvItemEmployerVacancyBinding,
-    private val onEditClick: (JobApiModel) -> Unit,
-    private val onDeleteClick: (JobApiModel) -> Unit
+    private val onEditClick: (VacancyApiModel) -> Unit,
+    private val onDeleteClick: (VacancyApiModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(job: JobApiModel) {
+    fun bind(job: VacancyApiModel) {
         val datePosted = fullFormatDate.parse(job.datePosted)
         val datePostedString = ddMMyyyyFormatDate.format(datePosted)
-        binding.tvJobCity.text = job.location.city
+        binding.tvJobCity.text = job.location
         binding.tvJobVacation.text = job.name
         binding.tvJobPostedDate.text = datePostedString
         binding.tvJobPostedInfo.text = job.shortDescription
@@ -59,13 +60,13 @@ class VacancyViewHolder(
     }
 }
 
-class VacancyDiffUtil : DiffUtil.ItemCallback<JobApiModel>() {
+class VacancyDiffUtil : DiffUtil.ItemCallback<VacancyApiModel>() {
 
-    override fun areItemsTheSame(oldItem: JobApiModel, newItem: JobApiModel): Boolean {
+    override fun areItemsTheSame(oldItem: VacancyApiModel, newItem: VacancyApiModel): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: JobApiModel, newItem: JobApiModel): Boolean {
+    override fun areContentsTheSame(oldItem: VacancyApiModel, newItem: VacancyApiModel): Boolean {
         return oldItem == newItem
     }
 }

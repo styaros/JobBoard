@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.domain.repositories.AuthRepository
 import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import com.example.jobboard.domain.repositories.UserInfoRepository
@@ -47,8 +48,10 @@ class LoginViewModel(
             try {
                 userInfoRepository.getEmployerInfo(sharedPrefsRepository.getUserId() ?: "")
                 sharedPrefsRepository.putProfileType(true)
+                Authorization.isEmployerState = true
             } catch (e: Exception) {
                 sharedPrefsRepository.putProfileType(false)
+                Authorization.isEmployerState = false
             }
         }
     }

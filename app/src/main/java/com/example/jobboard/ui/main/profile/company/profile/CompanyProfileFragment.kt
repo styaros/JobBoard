@@ -55,6 +55,10 @@ class CompanyProfileFragment : Fragment() {
             findNavController().popBackStack(R.id.startFragment, false)
         }
 
+        binding.layoutVacancies.setOnClickListener {
+            findNavController().navigate(R.id.employerVacanciesFragment)
+        }
+
         setupObservers()
     }
 

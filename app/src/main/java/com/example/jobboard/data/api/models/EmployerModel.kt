@@ -9,7 +9,7 @@ data class EmployerModel(
     @SerializedName("teamSize") val teamSize: Int,
     @SerializedName("location") val location: String,
     @SerializedName("photoLink") val photoLink: String,
-    @SerializedName("jobs") val jobs: JobListApiModel,
+    @SerializedName("jobs") val jobs: List<VacancyApiModel>?,
 )
 
 data class EmployerUpdateModel(

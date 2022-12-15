@@ -12,6 +12,8 @@ import com.example.jobboard.data.api.models.LocationApiModel
 import com.example.jobboard.databinding.FragmentEditCompanyProfileBinding
 import com.example.jobboard.ui.main.profile.company.edit.adapter.LocationAdapter
 import com.example.jobboard.utils.src
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditCompanyProfileFragment : Fragment() {
@@ -61,7 +63,7 @@ class EditCompanyProfileFragment : Fragment() {
             val aboutUs = binding.etAboutUs.text.toString()
             viewModel.setInfo(companyName, teamSize, aboutUs)
             viewModel.sendInfoUpdate()
-            findNavController().navigateUp()
+
         }
 
         setupObservers()
@@ -81,6 +83,12 @@ class EditCompanyProfileFragment : Fragment() {
         }
         viewModel.locationListLiveData.observe(viewLifecycleOwner) { locationList ->
             adapter.submitList(locationList)
+        }
+
+        viewModel.ping.observe(viewLifecycleOwner) {
+            if(it) {
+                findNavController().navigateUp()
+            }
         }
     }
 

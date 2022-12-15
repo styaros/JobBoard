@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.jobboard.R
 import com.example.jobboard.data.api.models.JobApiModel
+import com.example.jobboard.data.api.models.VacancyApiModel
 import com.example.jobboard.databinding.FragmentVacanciesBinding
 import com.example.jobboard.ui.main.profile.company.employerVacancies.adapter.VacancyAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,8 +35,16 @@ class EmployerVacanciesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getJobs()
+
+        binding.rvVacancies.adapter = adapter
+
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.btnAddTask.setOnClickListener {
+            findNavController().navigate(R.id.addVacancyFragment)
         }
 
         setupObservers()
@@ -46,11 +56,11 @@ class EmployerVacanciesFragment : Fragment() {
         }
     }
 
-    private fun onEditClickListener(job: JobApiModel) {
+    private fun onEditClickListener(job: VacancyApiModel) {
 
     }
 
-    private fun onDeleteClickListener(job: JobApiModel) {
+    private fun onDeleteClickListener(job: VacancyApiModel) {
         viewModel.deleteVacancy(job.id)
     }
 }

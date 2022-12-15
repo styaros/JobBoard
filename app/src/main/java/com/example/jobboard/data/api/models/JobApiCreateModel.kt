@@ -10,5 +10,6 @@ data class JobApiCreateModel(
     @SerializedName("salaryStart") val salaryStart: Int,
     @SerializedName("salaryEnd") val salaryEnd: Int,
     @SerializedName("experience") val experience: Int,
+    @SerializedName("employment") val employment: String,
     @SerializedName("categoryId") val categoryId: String,
 )

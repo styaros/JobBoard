@@ -26,12 +26,15 @@ class MainViewModel(
     fun getEmployeeInfo() {
         viewModelScope.launch {
             try {
-                userInfoRepository.getEmployerInfo(sharedPrefsRepository.getUserId() ?: "")
+                val userId = sharedPrefsRepository.getUserId() ?: ""
+                userInfoRepository.getEmployerInfo(userId)
                 sharedPrefsRepository.putProfileType(true)
                 _isEmployerLiveData.value = true
+                Authorization.isEmployerState = true
             } catch (e: Exception) {
                 _isEmployerLiveData.value = false
                 sharedPrefsRepository.putProfileType(false)
+                Authorization.isEmployerState = false
             }
         }
     }

@@ -30,9 +30,14 @@ class EditCompanyProfileViewModel(
     val locationListLiveData: LiveData<List<LocationApiModel>>
         get() = _locationListLiveData
 
+    private val _ping = MutableLiveData(false)
+    val ping: LiveData<Boolean>
+        get() = _ping
+
     fun sendInfoUpdate() {
         viewModelScope.launch {
             userInfoRepository.sendEmployerUpdate(updateQueryLiveData.value!!)
+            _ping.value = true
         }
     }
 

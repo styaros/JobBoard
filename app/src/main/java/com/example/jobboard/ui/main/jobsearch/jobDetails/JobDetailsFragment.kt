@@ -53,7 +53,7 @@ class JobDetailsFragment : Fragment() {
             val datePosted = fullFormatDate.parse(job.datePosted)
             val datePostedString = ddMMyyyyFormatDate.format(datePosted)
 
-            binding.tvJobCity.text = "New York"
+            binding.tvJobCity.text = job.location
             binding.tvJobDescription.text = job.description
             binding.tvJobExperience.text = requireActivity().getString(R.string.needed_experience, job.experience.toString())
             binding.tvJobPostedDate.text = datePostedString

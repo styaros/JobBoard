@@ -25,7 +25,7 @@ interface JobApi {
     suspend fun deleteVacancy(
         @Query("id") id: String,
         @Query("UserId") userId: String
-    )
+    ): Response<Unit>
 
     @GET("api/v$API_VERSION/Job/UGetLikedJobs")
     suspend fun getFavourites(@Query("UserId") userId: String): Response<JobListApiModel>

@@ -11,11 +11,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserInfoApi {
-    @GET("api/v$API_VERSION/Employer/Get")
-    suspend fun getEmployerById(@Query("id") id: String): Response<EmployerModel>
+    @GET("api/v$API_VERSION/Employer/Get/{id}")
+    suspend fun getEmployerById(@Path("id") id: String): Response<EmployerModel>
 
     @PUT("api/v$API_VERSION/Employer/Update")
-    suspend fun sendEmployerUpdate(@Body employer: EmployerUpdateModel)
+    suspend fun sendEmployerUpdate(@Body employer: EmployerUpdateModel): Response<Unit>
 
     @GET("api/v$API_VERSION/Employee/UGet")
     suspend fun getEmployeeById(@Query("UserId") id: String): Response<EmployeeModel>

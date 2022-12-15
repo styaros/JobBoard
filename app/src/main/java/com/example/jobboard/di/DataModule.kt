@@ -5,6 +5,7 @@ import com.example.jobboard.data.api.retrofit.RetrofitAuthInstance
 import com.example.jobboard.data.api.retrofit.RetrofitInstance
 import com.example.jobboard.data.repositories.*
 import com.example.jobboard.domain.repositories.*
+import com.example.jobboard.ui.main.profile.company.employerVacancies.EmployerVacanciesViewModel
 import org.koin.dsl.module
 
 val dataModule = module {
