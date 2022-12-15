@@ -8,11 +8,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.jobboard.R
 import com.example.jobboard.databinding.FragmentCompanyProfileBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CompanyProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentCompanyProfileBinding
+
+    private val viewModel: CompanyProfileViewModel by viewModel()
 
     private val args: CompanyProfileFragmentArgs by navArgs()
 
@@ -28,7 +32,9 @@ class CompanyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(args.isCompanyMainPage) {
+        viewModel.getUserInfo()
+
+        if(args.employerId.isEmpty()) {
             binding.ivBack.isVisible = false
         } else {
             binding.ivEdit.isVisible = false
@@ -38,6 +44,30 @@ class CompanyProfileFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.ivEdit.setOnClickListener {
+            findNavController().navigate(R.id.editCompanyProfileFragment)
+        }
+
+        binding.layoutLogOut.setOnClickListener {
+            viewModel.logOut()
+            findNavController().popBackStack(R.id.startFragment, false)
+        }
+
+        binding.layoutVacancies.setOnClickListener {
+            findNavController().navigate(R.id.employerVacanciesFragment)
+        }
+
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.userInfoLiveData.observe(viewLifecycleOwner) { employer ->
+            binding.tvCompanyAbout.text = employer.aboutUs
+            binding.tvCompanyLocation.text = "Location: ${employer.location}"
+            binding.tvCompanyName.text = employer.name
+            binding.tvCompanyTeamSize.text = "${employer.teamSize} in team"
         }
     }
 }

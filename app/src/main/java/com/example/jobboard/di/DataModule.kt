@@ -1,14 +1,21 @@
 package com.example.jobboard.di
 
 import com.example.jobboard.data.api.*
+import com.example.jobboard.data.api.retrofit.RetrofitAuthInstance
+import com.example.jobboard.data.api.retrofit.RetrofitInstance
 import com.example.jobboard.data.repositories.*
 import com.example.jobboard.domain.repositories.*
+import com.example.jobboard.ui.main.profile.company.employerVacancies.EmployerVacanciesViewModel
 import org.koin.dsl.module
 
 val dataModule = module {
 
     factory<AuthRepository> {
         AuthRepositoryImpl(get())
+    }
+
+    factory<UserInfoRepository> {
+        UserInfoRepositoryImpl(get())
     }
 
     factory<SharedPrefsRepository> {
@@ -37,6 +44,10 @@ val dataModule = module {
 
     single<AuthApi> {
         (get() as RetrofitAuthInstance).getInstance().create(AuthApi::class.java)
+    }
+
+    single<UserInfoApi> {
+        (get() as RetrofitInstance).getInstance().create(UserInfoApi::class.java)
     }
 
     single<JobApi> {

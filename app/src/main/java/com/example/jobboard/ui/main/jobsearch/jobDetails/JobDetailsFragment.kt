@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -39,6 +40,11 @@ class JobDetailsFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.ivCompanyLogo.setOnClickListener {
+            val bundle = bundleOf("employerId" to args.employerId)
+            findNavController().navigate(R.id.companyProfileFragment, bundle)
+        }
+
         setupObservers()
     }
 
@@ -47,7 +53,7 @@ class JobDetailsFragment : Fragment() {
             val datePosted = fullFormatDate.parse(job.datePosted)
             val datePostedString = ddMMyyyyFormatDate.format(datePosted)
 
-            binding.tvJobCity.text = "New York"
+            binding.tvJobCity.text = job.location
             binding.tvJobDescription.text = job.description
             binding.tvJobExperience.text = requireActivity().getString(R.string.needed_experience, job.experience.toString())
             binding.tvJobPostedDate.text = datePostedString

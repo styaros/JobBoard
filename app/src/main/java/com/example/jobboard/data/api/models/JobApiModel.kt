@@ -12,8 +12,20 @@ data class JobApiModel(
     @SerializedName("location") val location: LocationApiModel,
     @SerializedName("datePosted") val datePosted: String,
     @SerializedName("employment") val employment: String,
-    @SerializedName("shortDiscription") val shortDescription: String,
+    @SerializedName("discription") val shortDescription: String,
     @SerializedName("category") val category: CategoryApiModel,
+    @SerializedName("employer") val employer: EmployerModel,
+)
+
+data class VacancyApiModel(
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("location") val location: String,
+    @SerializedName("datePosted") val datePosted: String,
+    @SerializedName("employment") val employment: String,
+    @SerializedName("discription") val shortDescription: String,
+    @SerializedName("category") val category: CategoryApiModel,
+    @SerializedName("employer") val employer: EmployerModel,
 )
 
 data class JobDetailsApiModel(
@@ -21,7 +33,7 @@ data class JobDetailsApiModel(
     @SerializedName("name") val name: String,
     @SerializedName("discription") val description: String,
     @SerializedName("datePosted") val datePosted: String,
-    @SerializedName("location") val location: LocationApiModel,
+    @SerializedName("location") val location: String,
     @SerializedName("salaryStart") val salaryStart: Int,
     @SerializedName("salaryEnd") val salaryEnd: Int,
     @SerializedName("experience") val experience: Int,

@@ -32,13 +32,13 @@ class StartFragment : Fragment() {
             findNavController().navigate(R.id.loginFragment)
         }
 
-        binding.btnRegisterAsEmployer.setOnClickListener {
-            findNavController().navigate(R.id.jobSearchFragment)
-        }
-
-        binding.btnRegisterAsEmployee.setOnClickListener {
-            findNavController().navigate(R.id.jobSearchFragment)
-        }
+//        binding.btnRegisterAsEmployer.setOnClickListener {
+//            findNavController().navigate(R.id.jobSearchFragment)
+//        }
+//
+//        binding.btnRegisterAsEmployee.setOnClickListener {
+//            findNavController().navigate(R.id.jobSearchFragment)
+//        }
 
         setupObservers()
         viewModel.isUserAuthorized()

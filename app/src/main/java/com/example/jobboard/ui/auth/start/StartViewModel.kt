@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import kotlinx.coroutines.launch
 

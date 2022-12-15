@@ -1,4 +1,4 @@
-package com.example.jobboard.data.api
+package com.example.jobboard.data.api.retrofit
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

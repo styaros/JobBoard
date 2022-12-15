@@ -8,14 +8,18 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.jobboard.R
 import com.example.jobboard.databinding.FragmentEmployeeProfileBinding
 import com.example.jobboard.ui.main.profile.company.profile.CompanyProfileFragmentArgs
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EmployeeProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentEmployeeProfileBinding
 
     private val args: EmployeeProfileFragmentArgs by navArgs()
+
+    private val viewModel: EmployeeProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +33,8 @@ class EmployeeProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUserInfo()
+
         if(args.isEmployeeMainPage) {
             binding.ivBack.isVisible = false
         } else {
@@ -39,6 +45,22 @@ class EmployeeProfileFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.layoutLogOut.setOnClickListener {
+            viewModel.logOut()
+            findNavController().popBackStack(R.id.startFragment, false)
+        }
+
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.userInfoLiveData.observe(viewLifecycleOwner) { employee ->
+            binding.tvEmployeeEmail.text = employee.email
+            binding.tvEmployeeName.text = "${employee.firstName} ${employee.lastName}"
+            binding.tvEmployeePhone.text = employee.phone
+            binding.tvCvLink.text = employee.cvLink
         }
     }
 }

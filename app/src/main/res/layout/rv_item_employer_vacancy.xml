@@ -16,25 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/random_logo" />
 
-    <ImageView
-        android:id="@+id/iv_add_to_favourites"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/ic_star_bordered" />
-
-    <ImageView
-        android:id="@+id/iv_remove_from_favourites"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:visibility="gone"
-        tools:src="@drawable/ic_star_filled" />
-
     <TextView
         android:id="@+id/tv_job_vacation"
         android:layout_width="wrap_content"
@@ -77,8 +58,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="10dp"
         android:textSize="14sp"
-        android:maxLines="3"
-        android:ellipsize="end"
         android:textColor="@color/black"
         android:maxWidth="300dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +77,31 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="full time" />
+        tools:text="fulll time" />
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_margin="10dp"
+        android:text="Edit"
+        android:background="@drawable/background_rounded_shape"
+        android:backgroundTint="@color/browser_actions_bg_grey"
+        app:layout_constraintTop_toBottomOf="@id/tv_job_posted_info"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_delete"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_margin="10dp"
+        android:text="Delete"
+        android:background="@drawable/background_rounded_shape"
+        app:layout_constraintTop_toBottomOf="@id/tv_job_posted_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_edit"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

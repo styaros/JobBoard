@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.domain.repositories.AuthRepository
 import com.example.jobboard.domain.repositories.SharedPrefsRepository
+import com.example.jobboard.domain.repositories.UserInfoRepository
 import kotlinx.coroutines.launch
 import com.example.jobboard.utils.AuthError
 import com.example.jobboard.utils.validateEmail
@@ -13,6 +15,7 @@ import com.example.jobboard.utils.validatePassword
 
 class LoginViewModel(
     private val authRepository: AuthRepository,
+    private val userInfoRepository: UserInfoRepository,
     private val sharedPrefsRepository: SharedPrefsRepository
 ) : ViewModel() {
 
@@ -42,6 +45,14 @@ class LoginViewModel(
     fun saveUserId(userId: String) {
         viewModelScope.launch {
             sharedPrefsRepository.putUserId(userId)
+            try {
+                userInfoRepository.getEmployerInfo(sharedPrefsRepository.getUserId() ?: "")
+                sharedPrefsRepository.putProfileType(true)
+                Authorization.isEmployerState = true
+            } catch (e: Exception) {
+                sharedPrefsRepository.putProfileType(false)
+                Authorization.isEmployerState = false
+            }
         }
     }
 

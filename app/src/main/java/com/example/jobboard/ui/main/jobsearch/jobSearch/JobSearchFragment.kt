@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.jobboard.R
+import com.example.jobboard.data.Authorization
 import com.example.jobboard.data.api.models.CategoryApiModel
 import com.example.jobboard.data.api.models.JobApiModel
 import com.example.jobboard.data.api.models.LocationApiModel
@@ -30,7 +31,12 @@ class JobSearchFragment : Fragment() {
     private val viewModel by viewModel<JobSearchViewModel>()
 
     private val jobAdapter by lazy {
-        JobAdapter(::onItemClickListener)
+        JobAdapter(
+            ::onItemClickListener,
+            ::onAddToFavouriteListener,
+            ::onRemoveFromFavouriteListener,
+            !Authorization.isEmployerState
+        )
     }
 
     private val categoryAdapter by lazy {
@@ -170,10 +176,10 @@ class JobSearchFragment : Fragment() {
 
             val salaryStartText = filterBinding.etSalaryStart.text.toString()
             val salaryEndText = filterBinding.etSalaryEnd.text.toString()
-            val salaryStart = if(salaryStartText.isEmpty()) 0 else salaryStartText.toInt()
-            val salaryEnd = if(salaryEndText.isEmpty()) 1000000 else salaryEndText.toInt()
+            val salaryStart = if (salaryStartText.isEmpty()) 0 else salaryStartText.toInt()
+            val salaryEnd = if (salaryEndText.isEmpty()) 1000000 else salaryEndText.toInt()
 
-            if(salaryStart >= 0 && salaryEnd >= 0 && salaryStart in 0 until salaryEnd + 1) {
+            if (salaryStart >= 0 && salaryEnd >= 0 && salaryStart in 0 until salaryEnd + 1) {
                 viewModel.setSalary(salaryStart, salaryEnd)
                 viewModel.setCategories()
                 filterDialogSheet.dismiss()
@@ -202,8 +208,19 @@ class JobSearchFragment : Fragment() {
     }
 
     private fun onItemClickListener(job: JobApiModel) {
-        val bundle = bundleOf("jobId" to job.id)
+        val bundle = bundleOf(
+            "jobId" to job.id,
+            "employerId" to job.employer.id
+        )
         findNavController().navigate(R.id.jobDetailsFragment, bundle)
+    }
+
+    private fun onAddToFavouriteListener(job: JobApiModel) {
+        viewModel.addToFavourites(job.id)
+    }
+
+    private fun onRemoveFromFavouriteListener(job: JobApiModel) {
+        viewModel.removeFromFavourites(job.id)
     }
 
     private fun onCategoryCheckboxClickListener(category: CategoryApiModel) {

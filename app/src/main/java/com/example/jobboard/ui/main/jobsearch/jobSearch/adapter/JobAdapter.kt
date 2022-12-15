@@ -16,7 +16,10 @@ import com.example.jobboard.utils.fullFormatDate
 import com.example.jobboard.utils.src
 
 class JobAdapter(
-    private val onItemClick: (JobApiModel) -> Unit
+    private val onItemClick: (JobApiModel) -> Unit,
+    private val onAddToFavouritesClick: (JobApiModel) -> Unit,
+    private val onRemoveFromFavourites: (JobApiModel) -> Unit,
+    private val isFavouriteJobAvailable: Boolean
 ) : ListAdapter<JobApiModel, JobViewHolder>(JobDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
@@ -25,7 +28,14 @@ class JobAdapter(
             parent,
             false
         )
-        return JobViewHolder(parent.context, binding, onItemClick)
+        return JobViewHolder(
+            parent.context,
+            binding,
+            onItemClick,
+            onAddToFavouritesClick,
+            onRemoveFromFavourites,
+            isFavouriteJobAvailable
+        )
     }
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
@@ -36,7 +46,10 @@ class JobAdapter(
 class JobViewHolder(
     private val context: Context,
     private val binding: RvJobListItemBinding,
-    private val onItemClick: (JobApiModel) -> Unit
+    private val onItemClick: (JobApiModel) -> Unit,
+    private val onAddToFavouritesClick: (JobApiModel) -> Unit,
+    private val onRemoveFromFavourites: (JobApiModel) -> Unit,
+    private val isFavouriteJobAvailable: Boolean
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(job: JobApiModel) {
@@ -47,21 +60,33 @@ class JobViewHolder(
         binding.tvJobPostedDate.text = datePostedString
         binding.tvJobPostedInfo.text = job.shortDescription
         binding.tvJobEmployment.text = job.employment
-        binding.ivCompanyLogo.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.random_logo))
+        binding.ivCompanyLogo.setImageDrawable(
+            AppCompatResources.getDrawable(
+                context,
+                R.drawable.random_logo
+            )
+        )
 
         binding.ivRemoveFromFavourites.isVisible = false
-        binding.ivAddToFavourites.isVisible = true
-        binding.ivAddToFavourites.src(R.drawable.ic_star_bordered)
-        binding.ivRemoveFromFavourites.src(R.drawable.ic_star_filled)
+        binding.ivAddToFavourites.isVisible = false
 
-        binding.ivAddToFavourites.setOnClickListener {
+        if (isFavouriteJobAvailable) {
+            binding.ivRemoveFromFavourites.isVisible = false
+            binding.ivAddToFavourites.isVisible = true
+            binding.ivAddToFavourites.src(R.drawable.ic_star_bordered)
+            binding.ivRemoveFromFavourites.src(R.drawable.ic_star_filled)
+
+            binding.ivAddToFavourites.setOnClickListener {
                 binding.ivAddToFavourites.isVisible = false
                 binding.ivRemoveFromFavourites.isVisible = true
-        }
+                onAddToFavouritesClick.invoke(job)
+            }
 
-        binding.ivRemoveFromFavourites.setOnClickListener {
-            binding.ivAddToFavourites.isVisible = true
-            binding.ivRemoveFromFavourites.isVisible = false
+            binding.ivRemoveFromFavourites.setOnClickListener {
+                binding.ivAddToFavourites.isVisible = true
+                binding.ivRemoveFromFavourites.isVisible = false
+                onRemoveFromFavourites.invoke(job)
+            }
         }
 
         binding.root.setOnClickListener {

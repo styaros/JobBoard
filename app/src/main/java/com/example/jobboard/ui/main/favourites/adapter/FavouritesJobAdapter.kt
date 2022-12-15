@@ -17,7 +17,8 @@ import com.example.jobboard.utils.fullFormatDate
 import com.example.jobboard.utils.src
 
 class FavouritesJobAdapter(
-    private val onItemClick: (JobApiModel) -> Unit
+    private val onItemClick: (JobApiModel) -> Unit,
+    private val onRemoveFromFavouriteClick: (JobApiModel) -> Unit
 ) : ListAdapter<JobApiModel, JobViewHolder>(JobDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
@@ -26,7 +27,7 @@ class FavouritesJobAdapter(
             parent,
             false
         )
-        return JobViewHolder(parent.context, binding, onItemClick)
+        return JobViewHolder(parent.context, binding, onItemClick, onRemoveFromFavouriteClick)
     }
 
     override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
@@ -37,7 +38,8 @@ class FavouritesJobAdapter(
 class JobViewHolder(
     private val context: Context,
     private val binding: RvJobListItemBinding,
-    private val onItemClick: (JobApiModel) -> Unit
+    private val onItemClick: (JobApiModel) -> Unit,
+    private val onRemoveFromFavouriteClick: (JobApiModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(job: JobApiModel) {
@@ -55,14 +57,10 @@ class JobViewHolder(
         binding.ivAddToFavourites.src(R.drawable.ic_star_bordered)
         binding.ivRemoveFromFavourites.src(R.drawable.ic_star_filled)
 
-        binding.ivAddToFavourites.setOnClickListener {
-            binding.ivAddToFavourites.isVisible = false
-            binding.ivRemoveFromFavourites.isVisible = true
-        }
-
         binding.ivRemoveFromFavourites.setOnClickListener {
             binding.ivAddToFavourites.isVisible = true
             binding.ivRemoveFromFavourites.isVisible = false
+            onRemoveFromFavouriteClick.invoke(job)
         }
 
         binding.root.setOnClickListener {

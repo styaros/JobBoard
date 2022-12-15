@@ -21,7 +21,12 @@
         android:id="@+id/jobSearchFragment"
         android:name="com.example.jobboard.ui.main.jobsearch.jobSearch.JobSearchFragment"
         android:label="JobSearchFragment"
-        tools:layout="@layout/fragment_job_search"/>
+        tools:layout="@layout/fragment_job_search">
+        <argument
+            android:name="isEmployer"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+    </fragment>
 
     <fragment
         android:id="@+id/companyProfileFragment"
@@ -29,9 +34,9 @@
         android:label="FragmentCompanyProfile"
         tools:layout="@layout/fragment_company_profile">
         <argument
-            android:name="isCompanyMainPage"
-            app:argType="boolean"
-            android:defaultValue="true"/>
+            android:name="employerId"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 
     <fragment
@@ -59,5 +64,26 @@
         <argument
             android:name="jobId"
             app:argType="string"/>
+        <argument
+            android:name="employerId"
+            app:argType="string"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/editCompanyProfileFragment"
+        android:name="com.example.jobboard.ui.main.profile.company.edit.EditCompanyProfileFragment"
+        android:label="EditCompanyProfileFragment"
+        tools:layout="@layout/fragment_edit_company_profile"/>
+
+    <fragment
+        android:id="@+id/addVacancyFragment"
+        android:name="com.example.jobboard.ui.main.profile.company.addVacancy.AddVacancyFragment"
+        android:label="AddVacancyFragment"
+        tools:layout="@layout/fragment_add_vacancy"/>
+
+    <fragment
+        android:id="@+id/employerVacanciesFragment"
+        android:name="com.example.jobboard.ui.main.profile.company.employerVacancies.EmployerVacanciesFragment"
+        android:label="EmployerVacanciesFragment"
+        tools:layout="@layout/fragment_vacancies"/>
 </navigation>

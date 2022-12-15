@@ -1,6 +1,5 @@
 package com.example.jobboard.ui.main.jobsearch.jobSearch
 
-import androidx.core.util.rangeTo
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,12 +13,14 @@ import com.example.jobboard.domain.models.api.Sort
 import com.example.jobboard.domain.repositories.CategoryRepository
 import com.example.jobboard.domain.repositories.JobRepository
 import com.example.jobboard.domain.repositories.LocationRepository
+import com.example.jobboard.domain.repositories.SharedPrefsRepository
 import kotlinx.coroutines.launch
 
 class JobSearchViewModel(
     private val jobRepository: JobRepository,
     private val categoryRepository: CategoryRepository,
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val sharedPrefsRepository: SharedPrefsRepository
 ) : ViewModel() {
 
     private val _jobList = MutableLiveData<List<JobApiModel>>()
@@ -62,6 +63,28 @@ class JobSearchViewModel(
         }
         viewModelScope.launch {
             _locationList.value = locationRepository.getAllLocations()
+        }
+    }
+
+    fun addToFavourites(jobId: String) {
+        viewModelScope.launch {
+            try {
+                val userId = sharedPrefsRepository.getUserId()!!
+                jobRepository.setToFavourites(jobId, userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun removeFromFavourites(jobId: String) {
+        viewModelScope.launch {
+            try {
+                val userId = sharedPrefsRepository.getUserId()!!
+                jobRepository.deleteFromFavourites(jobId, userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
