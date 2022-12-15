@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 class JobSearchViewModel(
     private val jobRepository: JobRepository,
     private val categoryRepository: CategoryRepository,
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val sharedPrefsRepository: SharedPrefsRepository
 ) : ViewModel() {
 
     private val _jobList = MutableLiveData<List<JobApiModel>>()
@@ -62,6 +63,28 @@ class JobSearchViewModel(
         }
         viewModelScope.launch {
             _locationList.value = locationRepository.getAllLocations()
+        }
+    }
+
+    fun addToFavourites(jobId: String) {
+        viewModelScope.launch {
+            try {
+                val userId = sharedPrefsRepository.getUserId()!!
+                jobRepository.setToFavourites(jobId, userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun removeFromFavourites(jobId: String) {
+        viewModelScope.launch {
+            try {
+                val userId = sharedPrefsRepository.getUserId()!!
+                jobRepository.deleteFromFavourites(jobId, userId)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

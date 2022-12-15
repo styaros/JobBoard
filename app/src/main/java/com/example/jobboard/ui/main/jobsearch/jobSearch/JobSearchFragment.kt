@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.jobboard.R
 import com.example.jobboard.data.Authorization
 import com.example.jobboard.data.api.models.CategoryApiModel
@@ -23,9 +22,6 @@ import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.JobAdapter
 import com.example.jobboard.ui.main.jobsearch.jobSearch.adapter.LocationAdapter
 import com.example.jobboard.utils.src
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JobSearchFragment : Fragment() {
@@ -35,7 +31,12 @@ class JobSearchFragment : Fragment() {
     private val viewModel by viewModel<JobSearchViewModel>()
 
     private val jobAdapter by lazy {
-        JobAdapter(::onItemClickListener, !Authorization.isEmployerState)
+        JobAdapter(
+            ::onItemClickListener,
+            ::onAddToFavouriteListener,
+            ::onRemoveFromFavouriteListener,
+            !Authorization.isEmployerState
+        )
     }
 
     private val categoryAdapter by lazy {
@@ -212,6 +213,14 @@ class JobSearchFragment : Fragment() {
             "employerId" to job.employer.id
         )
         findNavController().navigate(R.id.jobDetailsFragment, bundle)
+    }
+
+    private fun onAddToFavouriteListener(job: JobApiModel) {
+        viewModel.addToFavourites(job.id)
+    }
+
+    private fun onRemoveFromFavouriteListener(job: JobApiModel) {
+        viewModel.removeFromFavourites(job.id)
     }
 
     private fun onCategoryCheckboxClickListener(category: CategoryApiModel) {

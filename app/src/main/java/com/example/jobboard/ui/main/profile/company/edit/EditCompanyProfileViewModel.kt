@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jobboard.data.api.models.EmployerModel
+import com.example.jobboard.data.api.models.EmployerUpdateModel
 import com.example.jobboard.data.api.models.LocationApiModel
 import com.example.jobboard.domain.repositories.LocationRepository
 import com.example.jobboard.domain.repositories.SharedPrefsRepository
@@ -21,8 +22,8 @@ class EditCompanyProfileViewModel(
     val userInfoLiveData: LiveData<EmployerModel>
         get() = _userInfoLiveData
 
-    private val _updateQueryLiveData = MutableLiveData<EmployerModel>()
-    val updateQueryLiveData: LiveData<EmployerModel>
+    private val _updateQueryLiveData = MutableLiveData<EmployerUpdateModel>()
+    val updateQueryLiveData: LiveData<EmployerUpdateModel>
         get() = _updateQueryLiveData
 
     private val _locationListLiveData = MutableLiveData<List<LocationApiModel>>()
@@ -48,7 +49,14 @@ class EditCompanyProfileViewModel(
             val userId = sharedPrefsRepository.getUserId()
             val employeeInfo = userInfoRepository.getEmployerInfo(userId!!)
             _userInfoLiveData.value = employeeInfo
-            _updateQueryLiveData.value = employeeInfo
+            _updateQueryLiveData.value = EmployerUpdateModel(
+                id = employeeInfo.id,
+                name = employeeInfo.name,
+                aboutUs = employeeInfo.aboutUs,
+                teamSize = employeeInfo.teamSize,
+                location = employeeInfo.location,
+                photoLink = employeeInfo.photoLink
+            )
         }
     }
 
@@ -61,7 +69,7 @@ class EditCompanyProfileViewModel(
     fun setLocation(location: LocationApiModel) {
         viewModelScope.launch {
             _updateQueryLiveData.value = _updateQueryLiveData.value?.copy(
-                location = location.id
+                location = location.city
             )
         }
     }

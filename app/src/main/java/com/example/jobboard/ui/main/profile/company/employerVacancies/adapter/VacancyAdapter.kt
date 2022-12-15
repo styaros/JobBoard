@@ -1,45 +1,42 @@
-package com.example.jobboard.ui.main.favourites.adapter
+package com.example.jobboard.ui.main.profile.company.employerVacancies.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobboard.R
 import com.example.jobboard.data.api.models.JobApiModel
-import com.example.jobboard.databinding.RvJobListItemBinding
+import com.example.jobboard.databinding.RvItemEmployerVacancyBinding
 import com.example.jobboard.utils.ddMMyyyyFormatDate
 import com.example.jobboard.utils.fullFormatDate
-import com.example.jobboard.utils.src
 
-class FavouritesJobAdapter(
-    private val onItemClick: (JobApiModel) -> Unit,
-    private val onRemoveFromFavouriteClick: (JobApiModel) -> Unit
-) : ListAdapter<JobApiModel, JobViewHolder>(JobDiffUtil()) {
+class VacancyAdapter(
+    private val onEditClick: (JobApiModel) -> Unit,
+    private val onDeleteClick: (JobApiModel) -> Unit
+) : ListAdapter<JobApiModel, VacancyViewHolder>(VacancyDiffUtil()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JobViewHolder {
-        val binding = RvJobListItemBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VacancyViewHolder {
+        val binding = RvItemEmployerVacancyBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return JobViewHolder(parent.context, binding, onItemClick, onRemoveFromFavouriteClick)
+        return VacancyViewHolder(parent.context, binding, onEditClick, onDeleteClick)
     }
 
-    override fun onBindViewHolder(holder: JobViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VacancyViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 }
 
-class JobViewHolder(
+class VacancyViewHolder(
     private val context: Context,
-    private val binding: RvJobListItemBinding,
-    private val onItemClick: (JobApiModel) -> Unit,
-    private val onRemoveFromFavouriteClick: (JobApiModel) -> Unit
+    private val binding: RvItemEmployerVacancyBinding,
+    private val onEditClick: (JobApiModel) -> Unit,
+    private val onDeleteClick: (JobApiModel) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(job: JobApiModel) {
@@ -52,24 +49,17 @@ class JobViewHolder(
         binding.tvJobEmployment.text = job.employment
         binding.ivCompanyLogo.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.random_logo))
 
-        binding.ivRemoveFromFavourites.isVisible = true
-        binding.ivAddToFavourites.isVisible = false
-        binding.ivAddToFavourites.src(R.drawable.ic_star_bordered)
-        binding.ivRemoveFromFavourites.src(R.drawable.ic_star_filled)
-
-        binding.ivRemoveFromFavourites.setOnClickListener {
-            binding.ivAddToFavourites.isVisible = true
-            binding.ivRemoveFromFavourites.isVisible = false
-            onRemoveFromFavouriteClick.invoke(job)
+        binding.btnEdit.setOnClickListener {
+            onEditClick.invoke(job)
         }
 
-        binding.root.setOnClickListener {
-            onItemClick.invoke(job)
+        binding.btnDelete.setOnClickListener {
+            onDeleteClick.invoke(job)
         }
     }
 }
 
-class JobDiffUtil : DiffUtil.ItemCallback<JobApiModel>() {
+class VacancyDiffUtil : DiffUtil.ItemCallback<JobApiModel>() {
 
     override fun areItemsTheSame(oldItem: JobApiModel, newItem: JobApiModel): Boolean {
         return oldItem.id == newItem.id

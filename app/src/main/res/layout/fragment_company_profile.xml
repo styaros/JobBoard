@@ -128,6 +128,54 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_company_about_us" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_vacancies"
+                android:layout_width="0dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="10dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_company_about"
+                app:layout_constraintBottom_toTopOf="@id/layout_log_out">
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dividerColor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_vacancies"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_vacancies"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_vacancies"
+                    app:srcCompat="@drawable/briefcase" />
+
+                <TextView
+                    android:id="@+id/tv_vacancies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="Vacancies"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_vacancies"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_log_out"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
@@ -136,7 +184,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_company_about">
+                app:layout_constraintTop_toBottomOf="@id/layout_vacancies">
 
                 <View
                     android:id="@+id/divider"

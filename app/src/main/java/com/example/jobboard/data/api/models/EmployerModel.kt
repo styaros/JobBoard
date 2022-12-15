@@ -8,5 +8,15 @@ data class EmployerModel(
     @SerializedName("aboutUs") val aboutUs: String,
     @SerializedName("teamSize") val teamSize: Int,
     @SerializedName("location") val location: String,
-    @SerializedName("photoLink") val photoLink: String
+    @SerializedName("photoLink") val photoLink: String,
+    @SerializedName("jobs") val jobs: JobListApiModel,
+)
+
+data class EmployerUpdateModel(
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("aboutUs") val aboutUs: String,
+    @SerializedName("teamSize") val teamSize: Int,
+    @SerializedName("location") val location: String,
+    @SerializedName("photoLink") val photoLink: String,
 )

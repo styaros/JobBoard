@@ -33,6 +33,8 @@ class EmployeeProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUserInfo()
+
         if(args.isEmployeeMainPage) {
             binding.ivBack.isVisible = false
         } else {
@@ -48,6 +50,17 @@ class EmployeeProfileFragment : Fragment() {
         binding.layoutLogOut.setOnClickListener {
             viewModel.logOut()
             findNavController().popBackStack(R.id.startFragment, false)
+        }
+
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.userInfoLiveData.observe(viewLifecycleOwner) { employee ->
+            binding.tvEmployeeEmail.text = employee.email
+            binding.tvEmployeeName.text = "${employee.firstName} ${employee.lastName}"
+            binding.tvEmployeePhone.text = employee.phone
+            binding.tvCvLink.text = employee.cvLink
         }
     }
 }

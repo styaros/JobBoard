@@ -12,7 +12,7 @@ data class JobApiModel(
     @SerializedName("location") val location: LocationApiModel,
     @SerializedName("datePosted") val datePosted: String,
     @SerializedName("employment") val employment: String,
-    @SerializedName("shortDiscription") val shortDescription: String,
+    @SerializedName("discription") val shortDescription: String,
     @SerializedName("category") val category: CategoryApiModel,
     @SerializedName("employer") val employer: EmployerModel,
 )

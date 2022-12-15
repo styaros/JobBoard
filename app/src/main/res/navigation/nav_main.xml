@@ -74,4 +74,16 @@
         android:name="com.example.jobboard.ui.main.profile.company.edit.EditCompanyProfileFragment"
         android:label="EditCompanyProfileFragment"
         tools:layout="@layout/fragment_edit_company_profile"/>
+
+    <fragment
+        android:id="@+id/addVacancyFragment"
+        android:name="com.example.jobboard.ui.main.profile.company.addVacancy.AddVacancyFragment"
+        android:label="AddVacancyFragment"
+        tools:layout="@layout/fragment_add_vacancy"/>
+
+    <fragment
+        android:id="@+id/employerVacanciesFragment"
+        android:name="com.example.jobboard.ui.main.profile.company.employerVacancies.EmployerVacanciesFragment"
+        android:label="EmployerVacanciesFragment"
+        tools:layout="@layout/fragment_vacancies"/>
 </navigation>

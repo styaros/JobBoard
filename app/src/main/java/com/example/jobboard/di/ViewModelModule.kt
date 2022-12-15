@@ -3,6 +3,7 @@ package com.example.jobboard.di
 import com.example.jobboard.ui.MainViewModel
 import com.example.jobboard.ui.auth.start.StartViewModel
 import com.example.jobboard.ui.auth.login.LoginViewModel
+import com.example.jobboard.ui.main.favourites.FavouritesViewModel
 import com.example.jobboard.ui.main.jobsearch.jobDetails.JobDetailsViewModel
 import com.example.jobboard.ui.main.jobsearch.jobSearch.JobSearchViewModel
 import com.example.jobboard.ui.main.profile.company.edit.EditCompanyProfileViewModel
@@ -26,6 +27,10 @@ val viewModelModule = module {
     }
 
     viewModel {
+        FavouritesViewModel(get(), get())
+    }
+
+    viewModel {
         CompanyProfileViewModel(get(), get())
     }
 
@@ -38,7 +43,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        JobSearchViewModel(get(), get(), get())
+        JobSearchViewModel(get(), get(), get(), get())
     }
 
     viewModel {
